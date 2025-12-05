@@ -4,7 +4,7 @@
 '               and a 'Total' master list. Handles updates, insertions, and complex
 '               business logic regarding "Line 0" protection and Zero-Value retention.
 ' Dependencies: Microsoft Scripting Runtime (recommended but late binding used for portability)
-' Author:       [Tan Zhi Yuan] with help of AI
+' Author:       [Tan Zhi Yuan] 
 ' ========================================================================================
 Option Explicit
 
