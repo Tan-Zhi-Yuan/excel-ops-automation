@@ -3,8 +3,7 @@
 ' Description:  Scans worksheets for unstructured data blocks, converts them to ListObjects
 '               (Excel Tables), standardizes column names, and applies dynamic filtering
 '               logic based on adjacent header text.
-' Author:       [Your Name]
-' Date:         2023-10-XX
+' Author:       [Tan ZHi Yuan]
 ' ========================================================================================
 Option Explicit
 
