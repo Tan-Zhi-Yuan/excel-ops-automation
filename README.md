@@ -11,7 +11,7 @@ A library of high-performance VBA modules designed to automate complex supply ch
 <summary><b>1. Unstructured Data Sanitizer (Click to Expand)</b></summary>
 <br>
 
-> **File:** `TableAutoAutomation.bas`
+> **File:** [TableAutoAutomation.bas](./TableAutoAutomation.bas)
 >
 > **The Problem:**
 > Raw reports from legacy systems often dump data without fixed ranges or headers, making analysis impossible.
@@ -27,7 +27,7 @@ A library of high-performance VBA modules designed to automate complex supply ch
 <summary><b>2. Logistics Sync Engine (Click to Expand)</b></summary>
 <br>
 
-> **File:** `LogisticsSyncEngine.bas`
+> **File:** [LogisticsSyncEngine.bas](./LogisticsSyncEngine.bas)
 >
 > **The Problem:**
 > Syncing a daily "Running List" with a master "Total List" (10k+ rows) using nested loops caused Excel to freeze. Business rules regarding "Line 0" summaries were often missed.
