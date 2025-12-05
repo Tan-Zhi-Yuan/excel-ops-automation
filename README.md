@@ -40,6 +40,22 @@ A library of high-performance VBA modules designed to automate complex supply ch
 </details>
 
 <details>
+<summary><b>4. Dynamic Sheet Importer (Click to Expand)</b></summary>
+<br>
+
+> **File:** [SheetImporter.bas](./SheetImporter.bas)
+>
+> **The Problem:**
+> Monthly reporting required opening a massive system export file and manually copying 5 specific sheets (e.g., "OTH", "SMT") into the main dashboard. This was repetitive and prone to "copy-paste" errors.
+>
+> **The Solution:**
+> * **User-Configurable:** Uses Excel "Named Ranges" to let non-technical users define the File Path and Sheet List directly in the grid, without touching VBA.
+> * **Smart Refresh:** Automatically deletes the old versions of the sheets before importing the new ones to ensure data is never duplicated.
+> * **Resilient:** Includes checks to ensure the source file exists and handles missing sheets gracefully.
+
+</details>
+
+<details>
 <summary><b>3. (Placeholder for Next Script)</b></summary>
 <br>
 
