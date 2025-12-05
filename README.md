@@ -55,6 +55,28 @@ A library of high-performance VBA modules designed to automate complex supply ch
 </details>
 
 ---
+## ⚙️ Engineering Philosophy & AI-Augmented Workflow
+
+This repository demonstrates a **Modern "Hybrid" Development Strategy**. 
+In an era where syntax is cheap but logic is expensive, my focus is on **Architectural Design** and **Business Value**. I utilize Large Language Models (LLMs) as a "force multiplier" to accelerate development across my tech stack.
+
+### 🧠 The Division of Labor
+* **Human Architect (Me):**
+    * **Business Logic:** Defining the complex rules (e.g., FIFO Valuation, Line 0 Protection, File Routing Matrix).
+    * **System Architecture:** Designing how disparate systems (Excel, Outlook, File System) interact securely.
+    * **Validation:** Reviewing, debugging, and stress-testing all code for accuracy and edge cases.
+* **AI Assistant (Tooling):**
+    * **Syntax Generation:** Rapidly translating logic into specific syntax for **VBA**, **M Code (Power Query)**, and **DAX**.
+    * **Pattern Optimization:** Refactoring nested loops into $O(N)$ Hash Maps (`Scripting.Dictionary`) for performance.
+    * **Boilerplate:** Generating standard error-handling blocks and UI elements.
+
+### 🛠️ Tech Stack & Methodology
+This workflow allows me to maintain high standards of code quality across multiple domains:
+* **VBA:** used for Event-Driven Automation and Object Model manipulation.
+* **Power Automate (RPA):** used for OS-level orchestration and "Low-Code" integration.
+* **Power Query (M Code):** used for robust ETL data transformation and cleaning steps.
+
+---
 
 ## 💡 Technical Highlights
 * **Performance:** Shifted from $O(n^2)$ nested loops to $O(n)$ Hash Maps for large datasets.
