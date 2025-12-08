@@ -71,6 +71,22 @@ A library of high-performance VBA modules designed to automate complex supply ch
 
 </details>
 
+<details>
+<summary><b>5. Automated Monthly Reporting Suite (Click to Expand)</b></summary>
+<br>
+
+> **File:** [Historical_Report_and_Consolidation_Tools.bas](./Historical_Report_and_Consolidation_Tools.bas)
+>
+> **The Problem:**
+> Generating a 6-month accuracy trend report required two manual bottlenecks: 1) Hunting through network folders to find specific monthly files, and 2) Manually copying/pasting rows matching a specific "Item List" while aligning inconsistent columns.
+>
+> **The Solution:**
+> * **Recursive File Retrieval:** Uses `DateAdd` logic to calculate the last 6 months of directory paths (e.g., `2025-10`, `2025-09`) and fetch the correct reports automatically.
+> * **High-Speed Filtering:** Loads the "Master Item List" into a `Scripting.Dictionary` for O(1) lookup speed during the consolidation loop.
+> * **In-Memory ETL:** Performs column remapping (dropping "Supplier", adding "Sales Month") and data cleaning ("NA" -> 0) within arrays before writing to the sheet.
+
+</details>
+
 ---
 ## ⚙️ Engineering Philosophy & AI-Augmented Workflow
 
