@@ -40,6 +40,22 @@ A library of high-performance VBA modules designed to automate complex supply ch
 </details>
 
 <details>
+<summary><b>3. Client-Facing Report Extractor (Click to Expand)</b></summary>
+<br>
+
+> **File:** [Export_Regional_Reports.bas](./Export_Regional_Reports.bas)
+>
+> **The Problem:**
+> Sharing internal workbooks with external stakeholders is risky. Formulas linked to backend databases break when the file is moved, and "cleaning" a file manually (Paste Special > Values) is tedious and error-prone.
+>
+> **The Solution:**
+> * **Hybrid Copy Logic:** Intelligently copies "Dashboard" sheets *with* full formatting/charts, while converting "Raw Data" sheets to *static values only*.
+> * **Security:** Ensures no backend formulas or external file links exist in the output file.
+> * **Maintainability:** Uses centralized `Const` variables to map source/target sheet names, making it easy to adapt to different reporting periods.
+
+</details>
+
+<details>
 <summary><b>4. Dynamic Sheet Importer (Click to Expand)</b></summary>
 <br>
 
@@ -55,25 +71,10 @@ A library of high-performance VBA modules designed to automate complex supply ch
 
 </details>
 
-<details>
-<summary><b>3. (Placeholder for Next Script)</b></summary>
-<br>
-
-> **File:** `ComingSoon.bas`
->
-> **The Problem:**
-> Description of the problem goes here.
->
-> **The Solution:**
-> * Feature 1
-> * Feature 2
-
-</details>
-
 ---
 ## ⚙️ Engineering Philosophy & AI-Augmented Workflow
 
-This repository demonstrates a **Modern "Hybrid" Development Strategy**. 
+This repository demonstrates a **Modern "Hybrid" Development Strategy**.
 In an era where syntax is cheap but logic is expensive, my focus is on **Architectural Design** and **Business Value**. I utilize Large Language Models (LLMs) as a "force multiplier" to accelerate development across my tech stack.
 
 ### 🧠 The Division of Labor
