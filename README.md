@@ -87,6 +87,22 @@ A library of high-performance VBA modules designed to automate complex supply ch
 
 </details>
 
+<details>
+<summary><b>6. Automated Report Updater & Sanitizer (Click to Expand)</b></summary>
+<br>
+
+> **File:** [Report_Updater.bas](./Report_Updater.bas)
+>
+> **The Problem:**
+> Weekly reporting involved manually opening a massive source file, searching for specific data blocks ("Accuracy Report Summary") scattered across multiple sheets, copying them into a tracker, and then saving a macro-free copy for management. This process took 45+ minutes per week.
+>
+> **The Solution:**
+> * **Configuration Table:** Uses an Excel Table to map Source Sheets to Destination Sheets, allowing users to add new metrics without changing code.
+> * **Intelligent Data Search:** Scans the source file for a specific keyword pattern (`*ACCURACY REPORT SUMMARY*`) and verifies the data block is valid (no "NAN" errors or empty zeros) before importing.
+> * **Auto-Sanitization:** After updating, the script automatically generates a clean `.xlsx` copy, deleting the configuration sheet and breaking all external links to ensure data security for external sharing.
+
+</details>
+
 ---
 ## ⚙️ Engineering Philosophy & AI-Augmented Workflow
 
