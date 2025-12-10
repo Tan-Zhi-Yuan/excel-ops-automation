@@ -94,7 +94,7 @@ A library of high-performance VBA modules designed to automate complex supply ch
 > **File:** [Report_Updater.bas](./Report_Updater.bas)
 >
 > **The Problem:**
-> Weekly reporting involved manually opening a massive source file, searching for specific data blocks ("Accuracy Report Summary") scattered across multiple sheets, copying them into a tracker, and then saving a macro-free copy for management. This process took 45+ minutes per week.
+> This reporting involved manually opening a massive source file, searching for specific data blocks of data scattered across multiple sheets, copying them into a tracker, and then saving a macro-free copy for management. This process took 30+ minutes.
 >
 > **The Solution:**
 > * **Configuration Table:** Uses an Excel Table to map Source Sheets to Destination Sheets, allowing users to add new metrics without changing code.
@@ -110,7 +110,7 @@ A library of high-performance VBA modules designed to automate complex supply ch
 > **File:** [Report Extraction & Updater.bas](./Report%20Extraction%20&%20Updater.bas)
 >
 > **The Problem:**
-> Weekly reporting was a manual ordeal involving multiple source files, disparate destination sheets, and a separate "Graph Data" sheet that needed to be synchronized manually. Tracking file paths and ensuring the correct "Accuracy Report Summary" block was copied was error-prone.
+> THe reporting was a manual ordeal involving multiple source files, disparate destination sheets, and a separate "Graph Data" sheet that needed to be synchronized manually. Tracking file paths and ensuring the correct data block was copied was error-prone.
 >
 > **The Solution:**
 > * **Multi-Source Architecture:** Iterates through multiple file paths (Link1, Link2) to consolidate data from different regional reports into one master file.
@@ -118,6 +118,23 @@ A library of high-performance VBA modules designed to automate complex supply ch
 >    1. **Tracker Sheet:** Imports raw data into columns and hides old weeks to create a rolling view.
 >    2. **Graph Sheet:** Automatically transposes the data, adds a "YYYYMM" date stamp, resizes the Excel Table, and hides the oldest row to maintain a consistent chart history (FIFO).
 > * **Auto-Sanitization:** Generates a "Clean" `.xlsx` version at the end of the process, stripping all macros and external links for safe distribution.
+
+</details>
+
+<details>
+<summary><b>8. PowerPoint Reporting Automator (Click to Expand)</b></summary>
+<br>
+
+> **File:** [PPT_Report_Automation.bas](./PPT_Report_Automation.bas)
+>
+> **The Problem:**
+> Management reports required manually copying specific data tables and charts from various Excel sheets and pasting them into the weekly PowerPoint deck, breaking links and distorting formatting every time.
+>
+> **The Solution:**
+> * **Cross-Application Control:** Uses OLE Automation (`CreateObject`) to remotely control the PowerPoint application from Excel.
+> * **Configuration Mapping:** Reads an Excel Table to dynamically map source sheets to target slides (by slide title match).
+> * **Resilient Update:** Captures the exact Top, Left, and Width of the old object before deleting it, ensuring the newly pasted data lands in the correct position without distortion.
+* **Targeted Deletion:** Specifically removes only the obsolete data object (`s.Type = 13` or `s.Name = "MacroTable"`), preserving charts and other critical slide elements.
 
 </details>
 
