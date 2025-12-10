@@ -103,6 +103,24 @@ A library of high-performance VBA modules designed to automate complex supply ch
 
 </details>
 
+<details>
+<summary><b>7. Report Extraction & Updater (Click to Expand)</b></summary>
+<br>
+
+> **File:** [Report Extraction & Updater.bas](./Report%20Extraction%20&%20Updater.bas)
+>
+> **The Problem:**
+> Weekly reporting was a manual ordeal involving multiple source files, disparate destination sheets, and a separate "Graph Data" sheet that needed to be synchronized manually. Tracking file paths and ensuring the correct "Accuracy Report Summary" block was copied was error-prone.
+>
+> **The Solution:**
+> * **Multi-Source Architecture:** Iterates through multiple file paths (Link1, Link2) to consolidate data from different regional reports into one master file.
+> * **Dual-Sheet Synchronization:**
+>    1. **Tracker Sheet:** Imports raw data into columns and hides old weeks to create a rolling view.
+>    2. **Graph Sheet:** Automatically transposes the data, adds a "YYYYMM" date stamp, resizes the Excel Table, and hides the oldest row to maintain a consistent chart history (FIFO).
+> * **Auto-Sanitization:** Generates a "Clean" `.xlsx` version at the end of the process, stripping all macros and external links for safe distribution.
+
+</details>
+
 ---
 ## ⚙️ Engineering Philosophy & AI-Augmented Workflow
 
