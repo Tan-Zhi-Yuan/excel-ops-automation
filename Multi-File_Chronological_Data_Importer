@@ -1,0 +1,155 @@
+Option Explicit
+
+' ==============================================================================
+' Module:       Multi-File_Chronological_Data_Importer
+' Description:  Automates the sequential import of multiple snapshot files.
+'
+' Core Logic:
+'   1. CONFIGURATION: Reads a root directory from a named range or cell.
+'   2. DATE ORCHESTRATION: Retrieves a list of target dates from a config table.
+'   3. CHRONOLOGICAL SORT: Implements a Bubble Sort to ensure data is processed
+'      and loaded into destination tables in strict date order (Oldest -> Newest).
+'   4. ETL PIPELINE: Dynamically aligns target headers, clears stale data, 
+'      and performs a values-only import from source snapshots.
+'   5. WORKFLOW INTEGRATION: Renames tabs based on the data date and triggers
+'      a global workbook refresh for downstream analytics.
+'
+
+' ==============================================================================
+
+Sub LoadForecastFiles_Chronological()
+    ' --- PART 1: DECLARATIONS ---
+    Dim wb As Workbook, srcWb As Workbook
+    Dim wsHelper As Worksheet, targetWs As Worksheet, srcWs As Worksheet, sh As Worksheet
+    Dim helperTbl As ListObject, targetLo As ListObject
+    Dim dateArr() As Variant
+    Dim rootPath As String, targetTableName As String, dateStr As String
+    Dim fullFilePath As String, monthFolder As String, mmdd As String
+    Dim i As Long, j As Long, k As Long, count As Long
+    Dim tempVal As Variant, targetTables As Variant
+    
+    ' Performance Optimization
+    Application.ScreenUpdating = False
+    Application.DisplayAlerts = False
+    
+    Set wb = ThisWorkbook
+    
+    ' =========================================================
+    ' PHASE 1: CONFIGURATION & DATE SORTING
+    ' =========================================================
+    
+    ' 1. Get Root Directory from Range "Path" or Cell L2
+    On Error Resume Next
+    rootPath = Range("Path").Value
+    If rootPath = "" Then rootPath = wb.ActiveSheet.Range("L2").Value
+    On Error GoTo 0
+    
+    If Right(rootPath, 1) <> "\" Then rootPath = rootPath & "\"
+    
+    ' 2. Locate "Helper" Table (Configuration Source)
+    Set helperTbl = Nothing
+    For Each sh In wb.Worksheets
+        On Error Resume Next
+        Set helperTbl = sh.ListObjects("Helper")
+        On Error GoTo 0
+        If Not helperTbl Is Nothing Then Exit For
+    Next sh
+    
+    If helperTbl Is Nothing Or helperTbl.ListRows.Count = 0 Then
+        MsgBox "Configuration Error: 'Helper' table missing or empty.", vbCritical
+        GoTo Cleanup
+    End If
+    
+    ' 3. Load and Sort Dates (Oldest First)
+    count = helperTbl.ListColumns(1).DataBodyRange.Rows.Count
+    ReDim dateArr(1 To count)
+    
+    For i = 1 To count
+        dateArr(i) = helperTbl.ListColumns(1).DataBodyRange.Cells(i, 1).Value
+    Next i
+    
+    ' Chronological Sort (Bubble Sort)
+    For i = 1 To UBound(dateArr) - 1
+        For j = i + 1 To UBound(dateArr)
+            If dateArr(i) > dateArr(j) Then
+                tempVal = dateArr(j): dateArr(j) = dateArr(i): dateArr(i) = tempVal
+            End If
+        Next j
+    Next i
+    
+    ' =========================================================
+    ' PHASE 2: ETL PROCESSING (Sequential Load)
+    ' =========================================================
+    
+    ' Mapping specific tables to the sorted date sequence
+    targetTables = Array("Table1", "Table2", "Table3", "Table5")
+    Dim loopLimit As Integer: loopLimit = IIf(UBound(dateArr) > 4, 4, UBound(dateArr))
+    
+    For i = 0 To loopLimit - 1
+        dateStr = CStr(dateArr(i + 1))
+        targetTableName = targetTables(i)
+        
+        ' Dynamic Path Logic: Assumes folder names represent YYYYMM
+        monthFolder = Left(dateStr, 6) 
+        fullFilePath = rootPath & monthFolder & "\Report - " & dateStr & ".xlsx"
+        
+        If Dir(fullFilePath) <> "" Then
+            ' A. Locate Destination Table via ListObject Collection
+            Set targetLo = Nothing
+            For Each sh In wb.Worksheets
+                On Error Resume Next
+                Set targetLo = sh.ListObjects(targetTableName)
+                On Error GoTo 0
+                If Not targetLo Is Nothing Then Set targetWs = sh: Exit For
+            Next sh
+            
+            If Not targetLo Is Nothing Then
+                Set srcWb = Workbooks.Open(fullFilePath, ReadOnly:=True)
+                On Error Resume Next
+                Set srcWs = srcWb.Sheets("Total")
+                On Error GoTo 0
+                
+                If Not srcWs Is Nothing Then
+                    ' B. HEADER ALIGNMENT (Source Row 2 -> Target Headers)
+                    Dim lastCol As Long
+                    lastCol = srcWs.Cells(2, srcWs.Columns.Count).End(xlToLeft).Column
+                    
+                    For k = 1 To lastCol
+                        If k <= targetLo.HeaderRowRange.Columns.Count Then
+                            targetLo.HeaderRowRange.Cells(1, k).Value = srcWs.Cells(2, k).Value
+                        End If
+                    Next k
+
+                    ' C. CLEAR AND RE-IMPORT DATA (Values Only)
+                    If Not targetLo.DataBodyRange Is Nothing Then targetLo.DataBodyRange.Delete
+                    
+                    Dim lastRowSrc As Long
+                    lastRowSrc = srcWs.Cells(srcWs.Rows.Count, "A").End(xlUp).Row
+                    
+                    If lastRowSrc >= 3 Then
+                        srcWs.Range("A3", srcWs.Cells(lastRowSrc, srcWs.UsedRange.Columns.Count)).Copy
+                        targetLo.HeaderRowRange.Cells(1, 1).Offset(1, 0).PasteSpecial xlPasteValues
+                    End If
+                    
+                    ' D. TAB RENAMING (Standardized MMDD)
+                    mmdd = Mid(dateStr, 5, 4)
+                    targetWs.Name = "Snapshot " & mmdd
+                End If
+                
+                Application.CutCopyMode = False
+                srcWb.Close SaveChanges:=False
+            End If
+        End If
+    Next i
+    
+    ' =========================================================
+    ' PHASE 3: REFRESH & FINALIZE
+    ' =========================================================
+    wb.RefreshAll
+    DoEvents
+    MsgBox "Chronological data import and refresh complete!", vbInformation
+
+Cleanup:
+    Application.ScreenUpdating = True
+    Application.DisplayAlerts = True
+End Sub
