@@ -134,7 +134,29 @@ A library of high-performance VBA modules designed to automate complex supply ch
 > * **Cross-Application Control:** Uses OLE Automation (`CreateObject`) to remotely control the PowerPoint application from Excel.
 > * **Configuration Mapping:** Reads an Excel Table to dynamically map source sheets to target slides (by slide title match).
 > * **Resilient Update:** Captures the exact Top, Left, and Width of the old object before deleting it, ensuring the newly pasted data lands in the correct position without distortion.
-* **Targeted Deletion:** Specifically removes only the obsolete data object (`s.Type = 13` or `s.Name = "MacroTable"`), preserving charts and other critical slide elements.
+> * **Targeted Deletion:** Specifically removes only the obsolete data object (`s.Type = 13` or `s.Name = "MacroTable"`), preserving charts and other critical slide elements.
+
+</details>
+
+<details>
+<summary><b>9. Multi-File Chronological Data Importer (Click to Expand)</b></summary>
+<br>
+
+> **File:** [Chronological_Forecast_Importer.bas](./Chronological_Forecast_Importer.bas)
+>
+> **The Problem:**
+> Trend analysis models require importing multiple historical snapshots in a specific sequence. Manually opening files, verifying date order, and aligning headers is time-intensive and susceptible to "date-shift" errors where data is loaded into the wrong period.
+>
+> **The Solution:**
+> * **Chronological Sorting Logic:** Implemented an in-memory **Bubble Sort** algorithm on snapshot dates to ensure data is loaded into destination tables in perfect chronological sequence (Oldest to Newest).
+> * **Dynamic Folder Navigation:** Programmatically constructs file paths by isolating date parts (e.g., extracting `YYYYMM` to identify month-specific subfolders).
+> * **Metadata-Driven Alignment:** Automatically syncs destination table headers with source metadata (Row 2) to handle minor column shifts in source reports.
+> * **State Management:** Wipes existing `DataBodyRange` records to ensure no "ghost data" remains from previous imports before injecting fresh snapshots.
+
+
+
+[Image of Bubble Sort algorithm flowchart]
+
 
 </details>
 
